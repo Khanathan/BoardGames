@@ -1,0 +1,55 @@
+Java assignment 1:
+- BoardGameSystem class:
+	uses the BoardGameUI class to print outputs and get inputs
+	
+
+- board game class
+	BoardGame
+	- String name
+	- double weight
+	- int timesPlayed
+	+ toString(): returns a String including details of the game (name, weight, times played)
+
+- game list:
+	#Contains all BoardGame
+	#Store in a linked list of BoardGame, use a linked list to make it easier to remove in the middle, no need to resize.
+	-LinkedList<BoardGame>
+	-int count
+	+getCount(): int
+	+addGame(BoardGame game): void
+	+removeGame(int index): void
+		removes a BoardGame from the list based on index
+	+getGame(int index): BoardGame
+		returns a BoardGame object based on index
+	+iterator(): returns an iterator to iterate over the list
+
+- text UI class
+	#UI for the user to interact with
+	#Code that interacts with screen and keyboard
+	# Input validation, if user enters invalid input -> re-ask user to enter a valid value
+	# Menu options:
+	#	List games: list out all games and details, numbered from 1
+		+listGames(): void
+
+	#	Add a new game: create a new game, asks user for game info: name (1 or more char)
+		+addGame(): void
+
+	#	Remove game: list all games in the system, allow user select a game by number, choose 0 to cancel, input validation on the number entered (negative number, etc)
+		+removeGame(): void
+
+	#	Add game played: list all games, select one (similar to remove game)
+		+addGamePlayed: void
+
+	#	Debug dump of game details: for each game in the game list, call toString() and print result to screen
+		+debugDump(): void
+
+	#	Exit: exit application.
+		+exit(): void
+
+	#	Use an iterator for methods that list all games, and the debugDump() method.
+
+	#	menu() method that contains a while loop that terminates when Exit is chosen, closing the application.
+		+menu(): void
+
+- main class
+	#Instantiate the text UI

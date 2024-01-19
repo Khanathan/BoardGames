@@ -2,6 +2,9 @@ package Main;
 
 import java.util.Scanner;
 
+//TO DO: MAKE A GENERIC METHOD FOR GETTING USER INPUT
+//maybe: private static int getUserInput(String message, int lower_bound, int upper_bound){}
+//lower and upper bound used for input validation, maybe lower_bound is 0 and upperbound is length/size of gameList
 public class BoardGameSystemUI {
      private static void printMenu() {
           System.out.println("______                     _");
@@ -56,9 +59,7 @@ public class BoardGameSystemUI {
      }
 
      //Method to list all games
-     //mode 0: list all games normally
-     //mode 1: debug dump
-     public static void listGames(BoardGameList gameList) {
+     public static void listAllGames(BoardGameList gameList) {
           int index = 1;
           for (BoardGame bg : gameList) {
                System.out.println(index + ". " + bg.getName()
@@ -70,6 +71,12 @@ public class BoardGameSystemUI {
           Scanner scan = new Scanner(System.in);
           scan.nextLine();
           scan.close();
+     }
+
+     public static void debugDump(BoardGameList gameList) {
+          for (BoardGame bg : gameList) {
+               System.out.println(bg.toString());
+          }
      }
 
      //Needs some improvement here
@@ -122,7 +129,7 @@ public class BoardGameSystemUI {
           Scanner scan = new Scanner(System.in);
           int input;
 
-          System.out.println("Please choose which game you would like to delete (Pick a number from the above list)");
+          System.out.println("Please choose which game you would like to delete (Pick a number from the above list):");
           try {
                input = Integer.parseInt(scan.nextLine());
           } catch (Exception e) {
@@ -137,4 +144,12 @@ public class BoardGameSystemUI {
           }
           return input;
      }
+
+
+     public static int getGamePlayedChoice() {
+          System.out.println("Please choose the game you want to add a game played to (Pick a number from the above list):");
+          return 1;
+     }
+
+     //MAKE A GENERIC METHOD FOR GETTING USER INPUT
 }

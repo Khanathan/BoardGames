@@ -2,7 +2,6 @@ Java assignment 1:
 - BoardGameSystem class:
 	uses the BoardGameUI class to print outputs and get inputs
 	
-
 - board game class
 	BoardGame
 	- String name
@@ -13,7 +12,8 @@ Java assignment 1:
 - game list:
 	#Contains all BoardGame
 	#Store in a linked list of BoardGame, use a linked list to make it easier to remove in the middle, no need to resize.
-	-LinkedList<BoardGame>
+//Change to ArrayList -LinkedList<BoardGame> 
+//Make the class implements Iterable<BoardGame> to use foreach loop		
 	-int count
 	+getCount(): int
 	+addGame(BoardGame game): void
@@ -28,7 +28,7 @@ Java assignment 1:
 	#Code that interacts with screen and keyboard
 	# Input validation, if user enters invalid input -> re-ask user to enter a valid value
 	# Menu options:
-	#	List games: list out all games and details, numbered from 1
+//Use foreach loop	#	List games: list out all games and details, numbered from 1
 		+listGames(): void
 
 	#	Add a new game: create a new game, asks user for game info: name (1 or more char), weight

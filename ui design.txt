@@ -43,3 +43,8 @@ Please enter the index of the game you just played, enter 0 to cancel:
 6.   Exit.
 
 #Exit the program.
+
+generic prompt and get input method
+public static int getUserInput(String prompt, int lowerBound, int upperBound) {
+	System.out.println(prompt);
+}

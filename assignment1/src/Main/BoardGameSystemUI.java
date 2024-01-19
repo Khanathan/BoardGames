@@ -1,10 +1,9 @@
 package Main;
 
-import java.util.ListIterator;
 import java.util.Scanner;
 
 public class BoardGameSystemUI {
-     public static int menu() {
+     private static void printMenu() {
           System.out.println("______                     _");
           System.out.println("| ___ \\                   | |");
           System.out.println("| |_/ / ___   __ _ _ __ __| | __ _  __ _ _ __ ___   ___  ___ ");
@@ -21,6 +20,10 @@ public class BoardGameSystemUI {
           System.out.println("5.   Debug dump.");
           System.out.println("6.   Exit.\n");
           System.out.println("Please choose an option (1-6): ");
+     }
+
+     public static int getMenuChoice() {
+          printMenu();
 
           //Get user input for choice
           Scanner scan = new Scanner(System.in);
@@ -28,9 +31,12 @@ public class BoardGameSystemUI {
           try {
                choice = Integer.parseInt(scan.nextLine());
           } catch (Exception e) {
+               //In case of invalid input format, default to an invalid choice
                choice = -1;
           }
-          while (choice == -1) {
+
+          //Input validation
+          while (!isValidMenuChoice(choice)) {
                try {
                     System.out.println("Please enter a valid choice (an integer between 1 and 6):");
                     choice = Integer.parseInt(scan.nextLine());
@@ -38,44 +44,35 @@ public class BoardGameSystemUI {
                     choice = -1;
                }
           }
+
           return choice;
+     }
+
+     private static boolean isValidMenuChoice(int choice) {
+          final int LOWER_BOUND = 1;
+          final int UPPER_BOUND = 6;
+
+          return (LOWER_BOUND <= choice && choice <= UPPER_BOUND);
      }
 
      //Method to list all games
      //mode 0: list all games normally
      //mode 1: debug dump
-     public static void listGames(ListIterator<BoardGame> iterator, int printMode) {
-          //In case of empty game list
-          if (!iterator.hasNext()) {
-               System.out.println("There is currently no game in the system.\n");
-          } else {
-               BoardGame game;
-               int index = 1;
-               //iterate through game list and print each game
-               System.out.println("Board Games List:");
-               while (iterator.hasNext()) {
-                    game = iterator.next();
-                    String output = "";
-
-                    //Normal print mode, for option 1 in the menu
-                    if (printMode == 0) {
-                         output = index + ". " + game.getName()
-                                   + ", game weight: " + game.getWeight() + ", times played: " + game.getTimesPlayed() + ".";
-                         index++;
-                    }
-                    //Debug dump mode
-                    else if (printMode == 1) {
-                         output = game.toString();
-                    }
-                    System.out.println(output);
-               }
+     public static void listGames(BoardGameList gameList) {
+          int index = 1;
+          for (BoardGame bg : gameList) {
+               System.out.println(index + ". " + bg.getName()
+                         + ", game weight: " + bg.getWeight() + ", times played: " + bg.getTimesPlayed());
+               index++;
           }
-          System.out.println();
 
-          //Let user see the game list before moving on
-          (new Scanner(System.in)).nextLine();
+          //Let user see the output before moving on
+          Scanner scan = new Scanner(System.in);
+          scan.nextLine();
+          scan.close();
      }
 
+     //Needs some improvement here
      public static BoardGame getGameFromUser() {
           Scanner scan = new Scanner(System.in);
           String gameName = "";
@@ -86,6 +83,7 @@ public class BoardGameSystemUI {
           gameName = scan.nextLine();
 
           //Name validation
+          //TO CHANGE: make an isValidName() method inside BoardGame class
           while (gameName.length() < 1) {
                System.out.println("Please enter a valid game name (at least 1 character in length):");
                gameName = scan.nextLine();
@@ -100,6 +98,8 @@ public class BoardGameSystemUI {
           }
 
           //weight validation
+          //TO CHANGE: make an isValidWeight() method inside BoardGame class to eliminate magic numbers
+          //while (BoardGame.isValidWeight(weight)){}
           while (weight < 1.0 || weight > 5.0) {
                try {
                     System.out.println("Please re-enter a valid weight (must be a number between 1.0 and 5.0):");
@@ -118,9 +118,9 @@ public class BoardGameSystemUI {
           }
      }
 
-     public static int getInputForGameDelete() {
+     public static int getGameDeleteChoice() {
           Scanner scan = new Scanner(System.in);
-          int input = -1;
+          int input;
 
           System.out.println("Please choose which game you would like to delete (Pick a number from the above list)");
           try {

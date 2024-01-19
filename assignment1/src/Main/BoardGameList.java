@@ -1,35 +1,32 @@
 package Main;
 
-import java.util.LinkedList;
-import java.util.ListIterator;
+import java.util.ArrayList;
+import java.util.Iterator;
 
-public class BoardGameList {
-     LinkedList<BoardGame> gameList;
-     private int count;
+public class BoardGameList implements Iterable<BoardGame> {
+     ArrayList<BoardGame> gameList;
 
      public BoardGameList() {
-          gameList = new LinkedList<BoardGame>();
-          count = 0;
+          gameList = new ArrayList<>();
      }
 
      public boolean isEmpty() {
-          return count == 0;
+          return gameList.isEmpty();
      }
 
      public void addGame(BoardGame gameToAdd) {
           gameList.add(gameToAdd);
-          count++;
      }
 
      //Takes a 1-based index but removes the item at 0-based position in the linked list
      public boolean removeGame(int index) {
           //do nothing if invalid index
-          if (index <= count) {
+          try {
                gameList.remove(index - 1);
-               count--;
                return true;
+          } catch (Exception e) {
+               return false;
           }
-          return false;
      }
 
      //Increment games played count of the game at the index given
@@ -38,7 +35,7 @@ public class BoardGameList {
      }
 
      //Returns game list iterator starting at the beginning
-     public ListIterator<BoardGame> GameListIterator() {
-          return gameList.listIterator(0);
+     public Iterator<BoardGame> iterator() {
+          return gameList.iterator();
      }
 }

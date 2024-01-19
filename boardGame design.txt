@@ -31,7 +31,7 @@ Java assignment 1:
 	#	List games: list out all games and details, numbered from 1
 		+listGames(): void
 
-	#	Add a new game: create a new game, asks user for game info: name (1 or more char)
+	#	Add a new game: create a new game, asks user for game info: name (1 or more char), weight
 		+addGame(): void
 
 	#	Remove game: list all games in the system, allow user select a game by number, choose 0 to cancel, input validation on the number entered (negative number, etc)

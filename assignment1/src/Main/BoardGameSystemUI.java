@@ -48,8 +48,6 @@ public class BoardGameSystemUI {
                     index++;
                }
           }
-
-          pauseLine();
      }
 
      //Getting game name from the user can be extracted into a separate method, but I decided to leave it here for now
@@ -80,7 +78,6 @@ public class BoardGameSystemUI {
                game = new BoardGame(gameName, weight);
 
                System.out.println("New game added successfully.");
-               pauseLine();
                return game;
           } catch (Exception e) {
                //Ideally we never reach this code block
@@ -93,35 +90,36 @@ public class BoardGameSystemUI {
           int lowerBound = 1;
           int upperBound = gameList.size();
           listAllGames(gameList);
-          int input = getUserInput("Please choose which game you would like to delete (Pick a number from the above list):",
+          int choice = getUserInput("Please choose which game you would like to delete (Pick a number from the above list):",
                     lowerBound, upperBound);
-
-          System.out.println("Game deleted successfully.");
-          pauseLine();
-          return input;
+          if (choice != 0)
+               System.out.println("Game deleted successfully.");
+          return choice;
      }
 
      public static int getGamePlayedChoice(BoardGameList gameList) {
           listAllGames(gameList);
           int lowerBound = 1;
           int upperBound = gameList.size();
-          int choice = getUserInput("Please choose the game you want to add a game played to (Pick a number from the above list):",
+          int choice = getUserInput("Please choose the game you just played (Pick a number from the above list):",
                     lowerBound, upperBound);
-
-          System.out.println("Game played added successfully.");
-          pauseLine();
+          if (choice != 0)
+               System.out.println("Game played added successfully.");
           return choice;
      }
 
      public static void debugDump(BoardGameList gameList) {
-          for (BoardGame bg : gameList) {
-               System.out.println(bg.toString());
+          if (gameList.size() == 0) {
+               System.out.println("There is currently no board game in the system.");
+          } else {
+               for (BoardGame bg : gameList) {
+                    System.out.println(bg.toString());
+               }
           }
-          pauseLine();
      }
 
      //Generic method for prompting the user for an input, must be an int within a range
-     public static int getUserInput(String prompt, int lowerBound, int upperBound) {
+     private static int getUserInput(String prompt, int lowerBound, int upperBound) {
           int choice;
           System.out.println(prompt);
 
@@ -131,7 +129,7 @@ public class BoardGameSystemUI {
                choice = lowerBound - 1;
           }
 
-          while (!(lowerBound <= choice && choice <= upperBound)) {
+          while (!(lowerBound - 1 <= choice && choice <= upperBound)) {
                try {
                     System.out.println("Please re-enter a valid input (must be between "
                               + lowerBound + " and " + upperBound + "):");
@@ -145,7 +143,7 @@ public class BoardGameSystemUI {
      }
 
      //Version that returns double instead of int
-     public static double getUserInput(String prompt, double lowerBound, double upperBound) {
+     private static double getUserInput(String prompt, double lowerBound, double upperBound) {
           double choice;
           System.out.println(prompt);
 
@@ -174,10 +172,14 @@ public class BoardGameSystemUI {
           scan.nextLine();
      }
 
+     //Method for when the user cancels the current action
+     public static void cancelled() {
+          System.out.println("Cancelled.");
+     }
+
      //For when the user chooses to quit/close the program
      public static void close() {
           System.out.println("Program closing.");
-          BoardGameSystemUI.pauseLine();
           scan.close();
      }
 }

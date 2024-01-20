@@ -12,25 +12,37 @@ public class BoardGameSystem {
           while (!quit) {
                int choice = BoardGameSystemUI.getMenuChoice();
                switch (choice) {
-                    case 1 ->
+                    case 1 -> {
                          //List all games
-                              BoardGameSystemUI.listAllGames(gameList);
+                         BoardGameSystemUI.listAllGames(gameList);
+                         BoardGameSystemUI.pauseLine();
+                    }
                     case 2 -> {
                          //Add a game
                          BoardGame gameToAdd = BoardGameSystemUI.getGameFromUser();
                          if (gameToAdd != null) {
                               gameList.addGame(gameToAdd);
                          }
+                         BoardGameSystemUI.pauseLine();
                     }
-                    case 3 ->
+                    case 3 -> {
                          //Remove a game by index
-                              gameList.removeGame(BoardGameSystemUI.getGameDeleteChoice(gameList));
-                    case 4 ->
+                         if (!gameList.removeGame(BoardGameSystemUI.getGameDeleteChoice(gameList)))
+                              BoardGameSystemUI.cancelled();
+                         BoardGameSystemUI.pauseLine();
+                    }
+                    case 4 -> {
                          //Add a game played
-                              gameList.incrementGamesPlayed(BoardGameSystemUI.getGamePlayedChoice(gameList)); //Get a choice from user then increment game played counter of that game
-                    case 5 ->
+                         if (!gameList.incrementGamesPlayed(BoardGameSystemUI.getGamePlayedChoice(gameList)))
+                              BoardGameSystemUI.cancelled();
+                         BoardGameSystemUI.pauseLine();
+                    }
+                    case 5 -> {
                          //Debug dump
-                              BoardGameSystemUI.debugDump(gameList);
+                         BoardGameSystemUI.debugDump(gameList);
+                         BoardGameSystemUI.pauseLine();
+                    }
+
                     case 6 -> {
                          //quit
                          quit = true;

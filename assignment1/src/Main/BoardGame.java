@@ -1,4 +1,5 @@
 package Main;
+
 import java.lang.Math;
 
 public class BoardGame {
@@ -6,7 +7,7 @@ public class BoardGame {
      private double weight; //Must be: 1 <= weight <= 5.0
      private int timesPlayed;
 
-     public BoardGame(String name, double weight) throws InvalidWeightException, EmptyNameException{
+     public BoardGame(String name, double weight) throws InvalidWeightException, EmptyNameException {
           if (weight < 1 || weight > 5) {
                throw new InvalidWeightException(weight);
           }
@@ -38,5 +39,9 @@ public class BoardGame {
 
      public String toString() {
           return "Game name: " + name + ", weight: " + weight + ", times played: " + timesPlayed;
+     }
+
+     public static boolean isValidName(String name) {
+          return name.length() >= 1;
      }
 }

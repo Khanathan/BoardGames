@@ -15,26 +15,23 @@ public class BoardGameSystem {
                int choice = BoardGameSystemUI.getMenuChoice();
                switch (choice) {
                     case 1:
+                         //List all games
                          BoardGameSystemUI.listAllGames(gameList);
                          break;
                     case 2:
+                         //Add a game
                          BoardGame gameToAdd = BoardGameSystemUI.getGameFromUser();
                          if (gameToAdd != null) {
                               gameList.addGame(gameToAdd);
-                              System.out.println("Game successfully added!");
-                              Scanner scan = new Scanner(System.in);
-                              scan.nextLine();
                          }
                          break;
                     case 3:
                          //Remove a game by index
-                         BoardGameSystemUI.listAllGames(gameList);
-
+                         gameList.removeGame(BoardGameSystemUI.getGameDeleteChoice(gameList));
                          break;
                     case 4:
                          //Add a game played
-                         BoardGameSystemUI.listAllGames(gameList);
-                         gameList.incrementGamesPlayed(BoardGameSystemUI.getGamePlayedChoice()); //Get a choice from user then increment game played counter of that game
+                         gameList.incrementGamesPlayed(BoardGameSystemUI.getGamePlayedChoice(gameList)); //Get a choice from user then increment game played counter of that game
                          break;
                     case 5:
                          //Debug dump

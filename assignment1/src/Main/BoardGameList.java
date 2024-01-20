@@ -38,4 +38,8 @@ public class BoardGameList implements Iterable<BoardGame> {
      public Iterator<BoardGame> iterator() {
           return gameList.iterator();
      }
+
+     public int size() {
+          return gameList.size();
+     }
 }

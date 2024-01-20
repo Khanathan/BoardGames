@@ -29,95 +29,55 @@ public class BoardGameSystemUI {
           printMenu();
 
           //Get user input for choice
-          Scanner scan = new Scanner(System.in);
-          int choice;
-          try {
-               choice = Integer.parseInt(scan.nextLine());
-          } catch (Exception e) {
-               //In case of invalid input format, default to an invalid choice
-               choice = -1;
-          }
-
-          //Input validation
-          while (!isValidMenuChoice(choice)) {
-               try {
-                    System.out.println("Please enter a valid choice (an integer between 1 and 6):");
-                    choice = Integer.parseInt(scan.nextLine());
-               } catch (Exception e) {
-                    choice = -1;
-               }
-          }
-
-          return choice;
-     }
-
-     private static boolean isValidMenuChoice(int choice) {
-          final int LOWER_BOUND = 1;
-          final int UPPER_BOUND = 6;
-
-          return (LOWER_BOUND <= choice && choice <= UPPER_BOUND);
+          int firstChoice = 1;
+          int lastChoice = 6;
+          return getUserInput("Please choose an option (1-6) from the above menu:", firstChoice, lastChoice);
      }
 
      //Method to list all games
      public static void listAllGames(BoardGameList gameList) {
-          int index = 1;
+          int index = 1; //Index number of board games in the list
+
           for (BoardGame bg : gameList) {
                System.out.println(index + ". " + bg.getName()
                          + ", game weight: " + bg.getWeight() + ", times played: " + bg.getTimesPlayed());
                index++;
           }
 
-          //Let user see the output before moving on
-          Scanner scan = new Scanner(System.in);
-          scan.nextLine();
-          scan.close();
+          pauseLine();
      }
 
-     public static void debugDump(BoardGameList gameList) {
-          for (BoardGame bg : gameList) {
-               System.out.println(bg.toString());
-          }
-     }
-
-     //Needs some improvement here
+     //Getting game name from the user can be extracted into a separate method, but I decided to leave it here for now
+     //because there is currently no other place this needs to be done.
      public static BoardGame getGameFromUser() {
           Scanner scan = new Scanner(System.in);
           String gameName = "";
           double weight;
+          BoardGame game;
 
           //Get user input for name
           System.out.println("Please enter the name of the game you want to add (must be at least 1 characer): ");
           gameName = scan.nextLine();
 
           //Name validation
-          //TO CHANGE: make an isValidName() method inside BoardGame class
-          while (gameName.length() < 1) {
+          while (!BoardGame.isValidName(gameName)) {
                System.out.println("Please enter a valid game name (at least 1 character in length):");
                gameName = scan.nextLine();
           }
 
           //Get user input for weight
-          try {
-               System.out.println("Please enter a weight for the game you want to add (between 1.0 and 5.0):");
-               weight = Double.parseDouble(scan.nextLine());
-          } catch (Exception e) {
-               weight = -1.0; //If the user enters an invalid input (not a float number), default to an invalid weight value
-          }
+          double lowerBound = 1.0;
+          double upperBound = 5.0;
 
-          //weight validation
-          //TO CHANGE: make an isValidWeight() method inside BoardGame class to eliminate magic numbers
-          //while (BoardGame.isValidWeight(weight)){}
-          while (weight < 1.0 || weight > 5.0) {
-               try {
-                    System.out.println("Please re-enter a valid weight (must be a number between 1.0 and 5.0):");
-                    weight = Double.parseDouble(scan.nextLine());
-               } catch (Exception e) {
-                    weight = -1.0;
-               }
-          }
+          weight = getUserInput("Please enter the weight of the board game ("
+                    + lowerBound + " to " + upperBound + "):", lowerBound, upperBound);
 
           try {
-               return new BoardGame(gameName, weight);
+               game = new BoardGame(gameName, weight);
+
+               System.out.println("New game added successfully.");
+               pauseLine();
+               return game;
           } catch (Exception e) {
                //Ideally we never reach this code block
                System.out.println(e.getMessage());
@@ -125,31 +85,94 @@ public class BoardGameSystemUI {
           }
      }
 
-     public static int getGameDeleteChoice() {
-          Scanner scan = new Scanner(System.in);
-          int input;
+     public static int getGameDeleteChoice(BoardGameList gameList) {
+          int lowerBound = 1;
+          int upperBound = gameList.size();
+          listAllGames(gameList);
+          int input = getUserInput("Please choose which game you would like to delete (Pick a number from the above list):",
+                    lowerBound, upperBound);
 
-          System.out.println("Please choose which game you would like to delete (Pick a number from the above list):");
-          try {
-               input = Integer.parseInt(scan.nextLine());
-          } catch (Exception e) {
-               do {
-                    System.out.println("Please re-enter a valid choice (An index from the above list): ");
-                    try {
-                         input = Integer.parseInt(scan.nextLine());
-                    } catch (Exception e2) {
-                         input = -1;
-                    }
-               } while (input == -1);
-          }
+          System.out.println("Game deleted successfully.");
+          pauseLine();
           return input;
      }
 
 
-     public static int getGamePlayedChoice() {
-          System.out.println("Please choose the game you want to add a game played to (Pick a number from the above list):");
-          return 1;
+     public static int getGamePlayedChoice(BoardGameList gameList) {
+          listAllGames(gameList);
+          int lowerBound = 1;
+          int upperBound = gameList.size();
+          int choice = getUserInput("Please choose the game you want to add a game played to (Pick a number from the above list):",
+                    lowerBound, upperBound);
+
+          System.out.println("Game played added successfully.");
+          pauseLine();
+          return choice;
      }
 
-     //MAKE A GENERIC METHOD FOR GETTING USER INPUT
+     public static void debugDump(BoardGameList gameList) {
+          for (BoardGame bg : gameList) {
+               System.out.println(bg.toString());
+          }
+          pauseLine();
+     }
+
+     //GENERIC METHOD FOR GETTING USER INPUT
+     public static int getUserInput(String prompt, int lowerBound, int upperBound) {
+          int choice;
+          Scanner scan = new Scanner(System.in);
+          System.out.println(prompt);
+
+          try {
+               choice = Integer.parseInt(scan.nextLine());
+          } catch (Exception e) {
+               choice = lowerBound - 1;
+          }
+
+          while (lowerBound <= choice && choice <= upperBound) {
+               try {
+                    System.out.println("Please re-enter a valid input (must be between "
+                              + lowerBound + " and " + upperBound + "):");
+                    choice = Integer.parseInt(scan.nextLine());
+               } catch (Exception e) {
+                    choice = lowerBound - 1;
+               }
+          }
+
+          scan.close();
+          return choice;
+     }
+
+     public static double getUserInput(String prompt, double lowerBound, double upperBound) {
+          double choice;
+          Scanner scan = new Scanner(System.in);
+          System.out.println(prompt);
+
+          try {
+               choice = Double.parseDouble(scan.nextLine());
+          } catch (Exception e) {
+               choice = lowerBound - 1;
+          }
+
+          while (lowerBound <= choice && choice <= upperBound) {
+               try {
+                    System.out.println("Please re-enter a valid input (must be between "
+                              + lowerBound + " and " + upperBound + "):");
+                    choice = Double.parseDouble(scan.nextLine());
+               } catch (Exception e) {
+                    choice = lowerBound - 1;
+               }
+          }
+
+          scan.close();
+          return choice;
+     }
+
+     //Method for letting the user read the output before continuing by hitting enter
+     public static void pauseLine() {
+          Scanner scan = new Scanner(System.in);
+          System.out.println("Hit enter to continue...");
+          scan.nextLine();
+          scan.close();
+     }
 }

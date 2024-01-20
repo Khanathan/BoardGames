@@ -6,6 +6,8 @@ import java.util.Scanner;
 //maybe: private static int getUserInput(String message, int lower_bound, int upper_bound){}
 //lower and upper bound used for input validation, maybe lower_bound is 0 and upperbound is length/size of gameList
 public class BoardGameSystemUI {
+     private static Scanner scan = new Scanner(System.in);
+
      private static void printMenu() {
           System.out.println("______                     _");
           System.out.println("| ___ \\                   | |");
@@ -22,7 +24,6 @@ public class BoardGameSystemUI {
           System.out.println("4.   Add a game played.");
           System.out.println("5.   Debug dump.");
           System.out.println("6.   Exit.\n");
-          System.out.println("Please choose an option (1-6): ");
      }
 
      public static int getMenuChoice() {
@@ -36,12 +37,16 @@ public class BoardGameSystemUI {
 
      //Method to list all games
      public static void listAllGames(BoardGameList gameList) {
-          int index = 1; //Index number of board games in the list
+          if (gameList.size() == 0) {
+               System.out.println("There is currently no board game in the system.");
+          } else {
+               int index = 1; //Index number of board games in the list
 
-          for (BoardGame bg : gameList) {
-               System.out.println(index + ". " + bg.getName()
-                         + ", game weight: " + bg.getWeight() + ", times played: " + bg.getTimesPlayed());
-               index++;
+               for (BoardGame bg : gameList) {
+                    System.out.println(index + ". " + bg.getName()
+                              + ", game weight: " + bg.getWeight() + ", times played: " + bg.getTimesPlayed());
+                    index++;
+               }
           }
 
           pauseLine();
@@ -50,7 +55,6 @@ public class BoardGameSystemUI {
      //Getting game name from the user can be extracted into a separate method, but I decided to leave it here for now
      //because there is currently no other place this needs to be done.
      public static BoardGame getGameFromUser() {
-          Scanner scan = new Scanner(System.in);
           String gameName = "";
           double weight;
           BoardGame game;
@@ -97,7 +101,6 @@ public class BoardGameSystemUI {
           return input;
      }
 
-
      public static int getGamePlayedChoice(BoardGameList gameList) {
           listAllGames(gameList);
           int lowerBound = 1;
@@ -117,10 +120,9 @@ public class BoardGameSystemUI {
           pauseLine();
      }
 
-     //GENERIC METHOD FOR GETTING USER INPUT
+     //Generic method for prompting the user for an input, must be an int within a range
      public static int getUserInput(String prompt, int lowerBound, int upperBound) {
           int choice;
-          Scanner scan = new Scanner(System.in);
           System.out.println(prompt);
 
           try {
@@ -129,7 +131,7 @@ public class BoardGameSystemUI {
                choice = lowerBound - 1;
           }
 
-          while (lowerBound <= choice && choice <= upperBound) {
+          while (!(lowerBound <= choice && choice <= upperBound)) {
                try {
                     System.out.println("Please re-enter a valid input (must be between "
                               + lowerBound + " and " + upperBound + "):");
@@ -139,13 +141,12 @@ public class BoardGameSystemUI {
                }
           }
 
-          scan.close();
           return choice;
      }
 
+     //Version that returns double instead of int
      public static double getUserInput(String prompt, double lowerBound, double upperBound) {
           double choice;
-          Scanner scan = new Scanner(System.in);
           System.out.println(prompt);
 
           try {
@@ -154,7 +155,7 @@ public class BoardGameSystemUI {
                choice = lowerBound - 1;
           }
 
-          while (lowerBound <= choice && choice <= upperBound) {
+          while (!(lowerBound <= choice && choice <= upperBound)) {
                try {
                     System.out.println("Please re-enter a valid input (must be between "
                               + lowerBound + " and " + upperBound + "):");
@@ -164,15 +165,19 @@ public class BoardGameSystemUI {
                }
           }
 
-          scan.close();
           return choice;
      }
 
      //Method for letting the user read the output before continuing by hitting enter
      public static void pauseLine() {
-          Scanner scan = new Scanner(System.in);
           System.out.println("Hit enter to continue...");
           scan.nextLine();
+     }
+
+     //For when the user chooses to quit/close the program
+     public static void close() {
+          System.out.println("Program closing.");
+          BoardGameSystemUI.pauseLine();
           scan.close();
      }
 }

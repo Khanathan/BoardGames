@@ -25,7 +25,7 @@ public class BoardGameList implements Iterable<BoardGame> {
 
      //Takes a 1-based index but removes the item at 0-based position in the linked list
      public boolean removeGame(int index) {
-          if (isEmpty()) {
+          if (isEmpty() || index == 0 || index >= gameList.size()) {
                return false;
           }
           //do nothing if invalid index
@@ -39,7 +39,7 @@ public class BoardGameList implements Iterable<BoardGame> {
 
      //Increment games played count of the game at the index given
      public boolean incrementGamesPlayed(int index) {
-          if (isEmpty()) {
+          if (isEmpty() || index == 0 || index >= gameList.size()) {
                return false;
           }
           gameList.get(index - 1).incrementTimesPlayed();

@@ -92,8 +92,7 @@ public class BoardGameSystemUI {
           listAllGames(gameList);
           int choice = getUserInput("Please choose which game you would like to delete (Pick a number from the above list, 0 to cancel):",
                     lowerBound, upperBound);
-          if (choice != 0)
-               System.out.println("Game deleted successfully.");
+
           return choice;
      }
 
@@ -103,8 +102,6 @@ public class BoardGameSystemUI {
           int upperBound = gameList.size();
           int choice = getUserInput("Please choose the game you just played (Pick a number from the above list, 0 to cancel):",
                     lowerBound, upperBound);
-          if (choice != 0)
-               System.out.println("Game played added successfully.");
           return choice;
      }
 
@@ -175,6 +172,14 @@ public class BoardGameSystemUI {
      //Method for when the user cancels the current action
      public static void cancelled() {
           System.out.println("Cancelled.");
+     }
+
+     public static void gamePlayedSuccess() {
+          System.out.println("Game played added successfully.");
+     }
+
+     public static void gameRemovedSuccess() {
+          System.out.println("Game removed successfully.");
      }
 
      //For when the user chooses to quit/close the program, closes the Scanner

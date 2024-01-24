@@ -27,14 +27,20 @@ public class BoardGameSystem {
                     }
                     case 3 -> {
                          //Remove a game by index
-                         if (!gameList.removeGame(BoardGameSystemUI.getGameDeleteChoice(gameList)))
+                         if (!gameList.removeGame(BoardGameSystemUI.getGameDeleteChoice(gameList))) {
                               BoardGameSystemUI.cancelled();
+                         } else {
+                              BoardGameSystemUI.gameRemovedSuccess();
+                         }
                          BoardGameSystemUI.pauseLine();
                     }
                     case 4 -> {
                          //Add a game played
-                         if (!gameList.incrementGamesPlayed(BoardGameSystemUI.getGamePlayedChoice(gameList)))
+                         if (!gameList.incrementGamesPlayed(BoardGameSystemUI.getGamePlayedChoice(gameList))) {
                               BoardGameSystemUI.cancelled();
+                         } else {
+                              BoardGameSystemUI.gamePlayedSuccess();
+                         }
                          BoardGameSystemUI.pauseLine();
                     }
                     case 5 -> {

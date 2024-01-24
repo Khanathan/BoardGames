@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 /**
  * A collection of BoardGame objects. This class supports basic operations such as adding and removing games,
- * increment gamesPlayed of a specific game, and is iterable.
+ * incrementing gamesPlayed of a specific game, and is iterable.
  */
 
 public class BoardGameList implements Iterable<BoardGame> {

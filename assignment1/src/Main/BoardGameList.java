@@ -3,6 +3,11 @@ package Main;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * A collection of BoardGame objects. This class supports basic operations such as adding and removing games,
+ * increment gamesPlayed of a specific game, and is iterable.
+ */
+
 public class BoardGameList implements Iterable<BoardGame> {
      ArrayList<BoardGame> gameList;
 
@@ -20,7 +25,7 @@ public class BoardGameList implements Iterable<BoardGame> {
 
      //Takes a 1-based index but removes the item at 0-based position in the linked list
      public boolean removeGame(int index) {
-          if (index == 0) {
+          if (isEmpty()) {
                return false;
           }
           //do nothing if invalid index
@@ -34,7 +39,7 @@ public class BoardGameList implements Iterable<BoardGame> {
 
      //Increment games played count of the game at the index given
      public boolean incrementGamesPlayed(int index) {
-          if (index == 0) {
+          if (isEmpty()) {
                return false;
           }
           gameList.get(index - 1).incrementTimesPlayed();

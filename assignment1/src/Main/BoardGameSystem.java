@@ -1,8 +1,8 @@
 package Main;
 
 /**
- * A class that allows the user to manage board games.
- * Users can see all board games in the system, add, remove or add a board game match played.
+ * A class that handles the logic and state of the program. The program is a system for managing board games.
+ * Users can see all board games currently in the system, add, remove board games or add a game played.
  */
 public class BoardGameSystem {
      public static void start() {

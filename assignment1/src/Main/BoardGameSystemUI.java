@@ -2,9 +2,9 @@ package Main;
 
 import java.util.Scanner;
 
-//TO DO: MAKE A GENERIC METHOD FOR GETTING USER INPUT
-//maybe: private static int getUserInput(String message, int lower_bound, int upper_bound){}
-//lower and upper bound used for input validation, maybe lower_bound is 0 and upperbound is length/size of gameList
+/**
+ * A class that handles all inputs and outputs. Includes methods that prints to the screen and methods to get user inputs.
+ */
 public class BoardGameSystemUI {
      private static Scanner scan = new Scanner(System.in);
 
@@ -87,10 +87,10 @@ public class BoardGameSystemUI {
      }
 
      public static int getGameDeleteChoice(BoardGameList gameList) {
-          int lowerBound = 1;
+          int lowerBound = 0;
           int upperBound = gameList.size();
           listAllGames(gameList);
-          int choice = getUserInput("Please choose which game you would like to delete (Pick a number from the above list):",
+          int choice = getUserInput("Please choose which game you would like to delete (Pick a number from the above list, 0 to cancel):",
                     lowerBound, upperBound);
           if (choice != 0)
                System.out.println("Game deleted successfully.");
@@ -99,9 +99,9 @@ public class BoardGameSystemUI {
 
      public static int getGamePlayedChoice(BoardGameList gameList) {
           listAllGames(gameList);
-          int lowerBound = 1;
+          int lowerBound = 0;
           int upperBound = gameList.size();
-          int choice = getUserInput("Please choose the game you just played (Pick a number from the above list):",
+          int choice = getUserInput("Please choose the game you just played (Pick a number from the above list, 0 to cancel):",
                     lowerBound, upperBound);
           if (choice != 0)
                System.out.println("Game played added successfully.");
@@ -126,10 +126,10 @@ public class BoardGameSystemUI {
           try {
                choice = Integer.parseInt(scan.nextLine());
           } catch (Exception e) {
-               choice = lowerBound - 1;
+               choice = lowerBound;
           }
 
-          while (!(lowerBound - 1 <= choice && choice <= upperBound)) {
+          while (!(lowerBound <= choice && choice <= upperBound)) {
                try {
                     System.out.println("Please re-enter a valid input (must be between "
                               + lowerBound + " and " + upperBound + "):");
@@ -177,7 +177,7 @@ public class BoardGameSystemUI {
           System.out.println("Cancelled.");
      }
 
-     //For when the user chooses to quit/close the program
+     //For when the user chooses to quit/close the program, closes the Scanner
      public static void close() {
           System.out.println("Program closing.");
           scan.close();
